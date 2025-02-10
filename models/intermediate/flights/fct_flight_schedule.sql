@@ -1,12 +1,10 @@
-{{
-   
-        config(
-            materialized = 'table'
-        )
-    
+{{  
+  config(
+    materialized = 'table'
+  )
 }}
 
-select
+select 
     "flight_id"
   , "flight_no"
   , "scheduled_departure"
@@ -17,7 +15,6 @@ select
   , "aircraft_code"
   , "actual_departure"
   , "actual_arrival"
+from 
+    {{ref('stg_flights__flights')}}
 
-from {{ source('demo_src', 'flights') }}
-
-    
