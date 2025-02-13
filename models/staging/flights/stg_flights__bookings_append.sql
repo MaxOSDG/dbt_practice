@@ -2,7 +2,8 @@
 {{
    
         config(
-            materialized = 'table',
+            materialized = 'incremental',
+            incremental_strategy = 'append',
             tags = ['bookings']
 
         )
@@ -20,5 +21,5 @@ from {{ source('demo_src', 'bookings') }}
 
 {% if is_incremental() %} 
     WHERE 
-        ('0x' || book_ref)::bigint>(SELECT max(('0x' || book_ref)::bigint) from {{ this }}) 
+        book_ref>(SELECT max(book_ref) from {{ this }}) 
 {% endif %}
